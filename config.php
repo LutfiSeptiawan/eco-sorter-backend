@@ -9,12 +9,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit;
 }
 
-// DATA KONEKSI 100% SINKRON DENGAN PANEL VARIABLES RAILWAY KAMU KAWAN:
-$host     = "roundtable.proxy.rlwy.net";
+// DATA KONEKSI DATABASE YANG SUDAH DIPERBAUI KAWAN:
+$host     = "mysql.railway.internal"; // Menggunakan host internal Railway
 $user     = "root";
-$pass     = "gCHgDeXBygVInpLgWREIbeVdZgXnFByB"; 
+$pass     = "gCHgDeXBygVInpLgWREIbeVdZgXnFByB"; // Password terbaru dari file config kamu
 $db_name  = "railway"; 
-$port     = 36980; 
+$port     = 3306; // Menggunakan port internal standar 3306
 
 // Menghubungkan ke database dengan port unik dari Railway
 $conn = new mysqli($host, $user, $pass, $db_name, $port);

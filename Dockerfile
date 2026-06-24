@@ -1,11 +1,13 @@
-FROM dunglas/frankenphp:latest-php8.2-alpine
+FROM php:8.1-apache
 
-# Install ekstensi mysqli untuk menghubungkan PHP ke MySQL Railway
+# 1. Aktifkan ekstensi mysqli untuk menghubungkan PHP ke MySQL Railway kamu kawan
 RUN docker-php-ext-install mysqli && docker-php-ext-enable mysqli
 
-# Salin semua file PHP ke dalam folder web server di dalam server cloud
-COPY . /app/public
+# 2. Salin semua file dari folder luar GitHub langsung ke root web server Apache (/var/www/html)
+COPY . /var/www/html/
 
-# Atur port agar sesuai dengan port dinamis dari Railway
-ENV PORT=8080
-EXPOSE 8080
+# 3. Atur izin folder agar server Apache bisa membaca file PHP dengan lancar
+RUN chown -R www-data:www-data /var/www/html
+
+# 4. Beritahu Railway kalau server ini menggunakan port 80 bawaan Apache
+EXPOSE 80

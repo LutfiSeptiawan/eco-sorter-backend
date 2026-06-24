@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 // DATA KONEKSI DATABASE YANG SUDAH DIPERBAUI KAWAN:
 $host     = "mysql.railway.internal"; // Menggunakan host internal Railway
 $user     = "root";
-$pass     = "gCHgDeXBygVInpLgWREIbeVdZgXnFByB"; // Password terbaru dari file config kamu
+$pass     = "BMEdcUYpRkStSbDtgeoLWKYPdRUlWiOe"; // Password terbaru dari file config kamu
 $db_name  = "railway"; 
 $port     = 3306; // Menggunakan port internal standar 3306
 

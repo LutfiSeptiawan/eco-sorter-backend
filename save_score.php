@@ -1,12 +1,14 @@
 <?php
+// AMAN KAN HEADER CORS DI PALING ATAS SECARA TOTAL
 header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
+header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With, Origin, Accept");
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Content-Type: application/json; charset=UTF-8");
 
+// Tangani OPTIONS Preflight dari Vercel dengan benar agar tidak langsung mati tanpa membawa izin
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
-    exit;
+    exit();
 }
 
 include 'config.php';
@@ -29,11 +31,10 @@ if ($nickname !== null && isset($data['score'])) {
     $result = $conn->query("SELECT score FROM leaderboard WHERE nickname = '$name'");
 
     if ($result && $result->num_rows > 0) {
-        // Nama sudah ada, ambil skor lamanya
         $row = $result->fetch_assoc();
         $oldScore = (int)$row['score'];
 
-        // 2. Bandingkan: Jika skor baru lebih besar dari skor lama, lakukan UPDATE
+        // 2. Bandingkan skor
         if ($score > $oldScore) {
             $updateSql = "UPDATE leaderboard SET score = $score WHERE nickname = '$name'";
             if ($conn->query($updateSql) === TRUE) {
@@ -42,11 +43,10 @@ if ($nickname !== null && isset($data['score'])) {
                 echo json_encode(["status" => "error", "message" => "Gagal update skor"]);
             }
         } else {
-            // Jika skor baru lebih kecil atau sama, tidak perlu diupdate
             echo json_encode(["status" => "success", "message" => "Skor lama masih lebih tinggi, data tidak diubah."]);
         }
     } else {
-        // 3. Jika nama belum pernah ada, buat baris baru (INSERT)
+        // 3. Jika nama belum pernah ada, buat baris baru
         $insertSql = "INSERT INTO leaderboard (nickname, score) VALUES ('$name', $score)";
         if ($conn->query($insertSql) === TRUE) {
             echo json_encode(["status" => "success", "message" => "Skor baru berhasil disimpan!"]);
